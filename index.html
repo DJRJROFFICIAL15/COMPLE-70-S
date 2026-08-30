@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maricela Navarro 70's — Confidencial</title>
+<meta name="description" content="Una invitación muy especial.">
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Tipografías -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          bg: '#120b08',
+          bg2: '#1c130d',
+          card: '#211610',
+          gold: '#d9b06c',
+          goldbright: '#f3cd88',
+          cream: '#f6ecd9',
+          muted: '#a8927c',
+          rose: '#c98a6b',
+        },
+        fontFamily: {
+          display: ['"Cormorant Garamond"', 'serif'],
+          body: ['Inter', 'sans-serif'],
+        },
+      }
+    }
+  }
+</script>
+</head>
+<body class="bg-bg text-cream font-body antialiased overflow-x-hidden">
+
+<!-- Ruido / textura de fondo -->
+<div class="grain"></div>
+<div class="bg-glow bg-glow--one"></div>
+<div class="bg-glow bg-glow--two"></div>
+
+<!-- ================= PÁGINA 1 — EL SOBRE ================= -->
+<section id="page-envelope" class="fixed inset-0 z-50 flex items-center justify-center px-6">
+  <div class="w-full max-w-md flex flex-col items-center text-center">
+
+    <p class="eyebrow mb-6 opacity-0 fade-in" style="animation-delay:.15s">Guarda el secreto</p>
+
+    <div id="envelope" class="envelope" role="button" tabindex="0" aria-label="Abrir invitación">
+      <div class="envelope__shadow"></div>
+
+      <div class="envelope__body">
+        <div class="envelope__flap"></div>
+
+        <div class="envelope__letter">
+          <p class="envelope__name">Maricela <span>Navarro</span></p>
+        </div>
+
+        <button id="seal" class="envelope__seal" aria-label="Romper el sello">
+          <span class="envelope__seal-ring"></span>
+          <span class="envelope__seal-text">TOP<br>SECRET</span>
+        </button>
+      </div>
+    </div>
+
+    <p class="mt-10 text-xs tracking-[0.3em] uppercase text-muted opacity-0 fade-in" style="animation-delay:.4s">
+      Confidencial &middot; Toca el sello para abrir
+    </p>
+  </div>
+</section>
+
+<!-- ================= CONTENIDO PRINCIPAL ================= -->
+<main id="page-main" class="relative z-10 opacity-0 pointer-events-none">
+
+  <!-- HERO -->
+  <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 py-24 relative reveal">
+    <h1 class="font-display italic font-medium leading-[0.95] text-[12vw] sm:text-[7vw] md:text-[5.5rem]">
+      Felices <span class="text-gold">70 Años</span>
+    </h1>
+    <p class="mt-8 max-w-md text-muted text-base sm:text-lg leading-relaxed">
+      Te invitamos a ser parte de un día inolvidable para celebrar las
+      70 primaveras de <span class="text-cream">Maricela</span>. Queremos
+      sorprenderla rodeada de las personas que más la quieren.
+    </p>
+
+    <div class="golden-rule golden-rule--wide golden-rule--alert mt-8">
+      <span class="golden-rule__label">🤫 Regla de oro</span>
+      <span>¡No le digas ni una sola palabra a la festejada!</span>
+    </div>
+
+    <div class="mt-10 flex flex-col items-center gap-1">
+      <span class="text-gold font-display text-2xl italic">Sábado 26 de septiembre</span>
+      <span class="text-muted text-sm tracking-[0.25em] uppercase">9:30 a.m. &middot; Hacienda del Parián</span>
+    </div>
+
+    <a href="#itinerario" class="scroll-cue mt-16" aria-label="Bajar">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- ITINERARIO -->
+  <section id="itinerario" class="px-6 py-24 md:py-32 reveal">
+    <div class="max-w-xl mx-auto">
+      <p class="eyebrow mb-4 text-center">El programa</p>
+      <h2 class="font-display italic text-4xl sm:text-5xl mb-16 text-center">Itinerario del día</h2>
+
+      <ol class="timeline">
+        <li class="timeline__item">
+          <span class="timeline__time">9:30 a.m.</span>
+          <div class="timeline__dot"></div>
+          <div class="timeline__content">
+            <span class="timeline__tag">Momento emotivo</span>
+            <h4 class="font-display italic text-2xl mb-1">Misa de Acción de Gracias</h4>
+            <p class="text-muted text-sm leading-relaxed">Comenzamos dando gracias por 70 años de vida.</p>
+          </div>
+        </li>
+        <li class="timeline__item">
+          <span class="timeline__time">11:00 a.m.</span>
+          <div class="timeline__dot timeline__dot--gold"></div>
+          <div class="timeline__content">
+            <h4 class="font-display italic text-2xl mb-1">Recepción sorpresa</h4>
+            <p class="text-muted text-sm leading-relaxed">El momento que hemos guardado en secreto. ¡Shhh!</p>
+          </div>
+        </li>
+        <li class="timeline__item">
+          <span class="timeline__time">11:30 a.m.</span>
+          <div class="timeline__dot"></div>
+          <div class="timeline__content">
+            <h4 class="font-display italic text-2xl mb-1">Comida</h4>
+            <p class="text-muted text-sm leading-relaxed">Celebramos en la mesa, en el restaurante de la hacienda.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- UBICACIÓN -->
+  <section id="ubicacion" class="px-6 py-24 md:py-32 reveal">
+    <div class="max-w-lg mx-auto">
+      <p class="eyebrow mb-4 text-center">Momento emotivo</p>
+      <h2 class="font-display italic text-4xl sm:text-5xl mb-12 text-center">Misa de Acción de Gracias</h2>
+
+      <div class="location-card">
+        <div class="location-card__glow"></div>
+        <p class="text-xs tracking-[0.25em] uppercase text-gold mb-3">Capilla &middot; Hacienda del Parián</p>
+
+        <div class="location-photo mb-4">
+          <img src="img/capilla.jpeg"
+               alt="Capilla Hacienda del Parián"
+               class="absolute inset-0 w-full h-full object-cover"
+               onerror="this.style.display='none'; this.parentElement.classList.add('location-photo--empty');" />
+        </div>
+
+        <p class="text-muted leading-relaxed mb-8">
+          Comenzamos el día dando gracias por 70 años de vida, fe y bendiciones.
+          Te esperamos en la capilla de la Hacienda del Parián para celebrar
+          juntos este momento tan especial para Maricela.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section id="rsvp" class="px-6 py-24 md:py-32 reveal">
+    <div class="max-w-lg mx-auto text-center">
+      <p class="eyebrow mb-4">Confirma tu lugar</p>
+      <h2 class="font-display italic text-4xl sm:text-5xl mb-10">¿Nos acompañas?</h2>
+
+      <!-- ⚠️ Reemplaza la URL de "action" por tu endpoint real de Formspree o SheetDB -->
+      <form id="rsvp-form" class="rsvp-card text-left"
+            action="https://formspree.io/f/TU_ID_DE_FORMULARIO" method="POST">
+
+        <label class="rsvp-label">¿Nos acompañas?</label>
+        <input type="hidden" id="rsvp-asistencia" name="asistencia" value="">
+
+        <button type="button" id="btn-si" class="rsvp-attend-btn">¡Sí asistiré! 🎉</button>
+
+        <p id="decline-toggle" class="rsvp-decline-link">
+          ¿No podrás asistir? <span>Avísanos aquí</span>
+        </p>
+
+        <div id="rsvp-name-wrap" class="hidden">
+          <label class="rsvp-label" for="rsvp-name">Nombre completo (o familia)</label>
+          <input id="rsvp-name" name="nombre" type="text" placeholder="Tu nombre completo"
+                 class="rsvp-input">
+        </div>
+
+        <div id="rsvp-message-wrap" class="hidden">
+          <label id="rsvp-message-label" class="rsvp-label" for="rsvp-message">Déjale un mensaje o felicitación a Maricela Navarro</label>
+          <textarea id="rsvp-message" name="mensaje" rows="4" placeholder="Escribe tu mensaje..."
+                    class="rsvp-input"></textarea>
+        </div>
+
+        <button type="submit" id="rsvp-submit" disabled
+                class="btn-gold w-full justify-center mt-6">
+          Selecciona una opción
+        </button>
+
+        <p id="rsvp-success" class="hidden mt-5 text-center text-sm text-gold">
+          ¡Gracias por confirmar! Te esperamos el 26 de septiembre. ✨
+        </p>
+        <p id="rsvp-error" class="hidden mt-5 text-center text-sm text-rose">
+          Hubo un problema al enviar. Por favor inténtalo de nuevo.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- LLEGA RÁPIDO -->
+  <section id="llega-rapido" class="px-6 py-24 md:py-36 reveal">
+    <div class="max-w-md mx-auto text-center">
+      <p class="eyebrow mb-4">El día del evento</p>
+      <h2 class="font-display italic text-4xl sm:text-5xl mb-4">No llegues tarde</h2>
+
+      <div id="countdown-mini" class="mini-countdown mb-10">
+        <span id="cd-mini-days">00</span>d
+        <span id="cd-mini-hours">00</span>h
+        <span id="cd-mini-minutes">00</span>m
+        <span id="cd-mini-seconds">00</span>s
+      </div>
+
+      <a href="https://maps.app.goo.gl/NYVqaRPbmb5dqD3v5" target="_blank" rel="noopener"
+         class="btn-gold-lg w-full justify-center">
+        Llega rápido desde aquí →
+      </a>
+    </div>
+
+    <footer class="mt-28 text-center text-muted text-xs tracking-[0.25em] uppercase">
+      Con todo nuestro cariño, para Maricela Navarro
+    </footer>
+
+    <div class="watermark">
+      <!-- ⚠️ Reemplaza el href por tu enlace real -->
+      <a href="#" target="_blank" rel="noopener" class="watermark__link">Created by Ramses OGG</a>
+    </div>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
