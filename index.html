@@ -85,11 +85,16 @@
     </h1>
     <p class="mt-8 max-w-md text-muted text-base sm:text-lg leading-relaxed">
       Te invitamos a ser parte de un día inolvidable para celebrar las
-      70 primaveras de <span class="text-cream">Maricela Navarro</span>. Queremos
-      sorprenderla rodeada de las personas que más la quieren.
+      70 primaveras de
+    </p>
+    <p class="mt-3 font-display italic text-3xl sm:text-4xl text-cream text-center">
+      Maricela Navarro
+    </p>
+    <p class="mt-8 max-w-md text-muted text-base sm:text-lg leading-relaxed">
+        Queremos sorprenderla rodeada de las personas que más la quieren.
     </p>
 
-    <div class="golden-rule golden-rule--wide golden-rule--alert mt-8">
+    <div class="golden-rule golden-rule--wide golden-rule--alert mt-5">
       <span class="golden-rule__label">🤫 Regla de oro</span>
       <span>¡No le digas ni una sola palabra a la festejada!</span>
     </div>
@@ -125,14 +130,14 @@
           <div class="timeline__dot timeline__dot--gold"></div>
           <div class="timeline__content">
             <h4 class="font-display italic text-2xl mb-1">Recepción sorpresa</h4>
-            <p class="text-muted text-sm leading-relaxed">El momento que hemos guardado en secreto. ¡Shhh!, misa de accion de gracias</p>
+            <p class="text-muted text-sm leading-relaxed">El momento que hemos guardado en secreto. ¡Shhh!, Misa de accion de gracias</p>
           </div>
         </li>
         <li class="timeline__item">
-          <span class="timeline__time">12:00 p.m.</span>
+          <span class="timeline__time">11:45.m.</span>
           <div class="timeline__dot"></div>
           <div class="timeline__content">
-            <h4 class="font-display italic text-2xl mb-1">Comida</h4>
+            <h4 class="font-display italic text-2xl mb-1">Desayuno</h4>
             <p class="text-muted text-sm leading-relaxed">Celebramos en la mesa, en el restaurante de la hacienda.</p>
           </div>
         </li>
@@ -157,7 +162,7 @@
                onerror="this.style.display='none'; this.parentElement.classList.add('location-photo--empty');" />
         </div>
 
-        <p class="text-muted leading-relaxed mb-8">
+        <p class="text-muted leading-relaxed text-justify mb-8">
           Comenzamos el día dando gracias por 70 años de vida, fe y bendiciones.
           Te esperamos en la capilla de la Hacienda del Parián para celebrar
           juntos este momento tan especial para Maricela.
@@ -170,21 +175,21 @@
   <!-- RSVP -->
   <section id="rsvp" class="px-6 py-24 md:py-32 reveal">
     <div class="max-w-lg mx-auto text-center">
-      <p class="eyebrow mb-4">Confirma tu lugar</p>
       <h2 class="font-display italic text-4xl sm:text-5xl mb-10">¿Nos acompañas?</h2>
 
       <!-- ⚠️ Reemplaza la URL de "action" por tu endpoint real de Formspree o SheetDB -->
       <form id="rsvp-form" class="rsvp-card text-left"
             action="https://formspree.io/f/TU_ID_DE_FORMULARIO" method="POST">
 
-        <label class="rsvp-label">¿Nos acompañas?</label>
         <input type="hidden" id="rsvp-asistencia" name="asistencia" value="">
+        <input type="hidden" id="rsvp-folio" name="folio" value="">
 
-        <button type="button" id="btn-si" class="rsvp-attend-btn">¡Sí asistiré! 🎉</button>
+        <div class="rsvp-toggle">
+          <button type="button" id="btn-si" class="rsvp-toggle__btn">¡Sí asistiré! 🎉</button>
+          <button type="button" id="btn-no" class="rsvp-toggle__btn">No podré asistir 😢</button>
+        </div>
 
-        <p id="decline-toggle" class="rsvp-decline-link">
-          ¿No podrás asistir? <span>Avísanos aquí</span>
-        </p>
+        <p id="rsvp-heading" class="rsvp-heading hidden"></p>
 
         <div id="rsvp-name-wrap" class="hidden">
           <label class="rsvp-label" for="rsvp-name">Nombre completo (o familia)</label>
@@ -193,7 +198,7 @@
         </div>
 
         <div id="rsvp-message-wrap" class="hidden">
-          <label id="rsvp-message-label" class="rsvp-label" for="rsvp-message">Déjale un mensaje o felicitación a Maricela Navarro</label>
+          <label id="rsvp-message-label" class="rsvp-label" for="rsvp-message">Déjale un mensaje o felicitación a Maricela Navarro, esto formara de un gran regalo sorpresa</label>
           <textarea id="rsvp-message" name="mensaje" rows="4" placeholder="Escribe tu mensaje..."
                     class="rsvp-input"></textarea>
         </div>

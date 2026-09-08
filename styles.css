@@ -666,20 +666,21 @@ body {
 }
 
 /* =========================================================
-   RSVP — botón principal de asistencia + link de declinar
+   RSVP — dos botones de asistencia + encabezado emotivo
    ========================================================= */
 
-.rsvp-attend-btn {
+.rsvp-toggle {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  width: 100%;
+  gap: 0.75rem;
   margin-top: 0.5rem;
-  padding: 1rem 1.4rem;
+}
+
+.rsvp-toggle__btn {
+  flex: 1;
+  padding: 0.9rem 0.8rem;
   border-radius: 9999px;
+  font-size: 0.85rem;
   font-weight: 700;
-  font-size: 0.95rem;
   color: var(--cream);
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(217, 176, 108, 0.3);
@@ -688,35 +689,29 @@ body {
               box-shadow 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
-.rsvp-attend-btn:hover {
+.rsvp-toggle__btn:hover {
   border-color: var(--gold);
   transform: translateY(-2px);
 }
 
-.rsvp-attend-btn.is-active {
+.rsvp-toggle__btn.is-active {
   background: linear-gradient(135deg, var(--gold-bright), var(--gold) 70%);
   color: #2a1c13;
   border-color: transparent;
   box-shadow: 0 10px 26px -8px rgba(217,176,108,0.55);
 }
 
-.rsvp-decline-link {
-  margin-top: 1rem;
-  text-align: center;
-  font-size: 0.82rem;
-  color: var(--muted);
-  cursor: pointer;
+.rsvp-toggle__btn.is-active.is-active--decline {
+  background: linear-gradient(135deg, #d99a8a, #c98a6b 70%);
 }
 
-.rsvp-decline-link span {
+.rsvp-heading {
+  margin-top: 1.4rem;
+  margin-bottom: 0.3rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.15rem;
   color: var(--gold-bright);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color 0.2s ease;
-}
-
-.rsvp-decline-link:hover span {
-  color: var(--gold);
 }
 
 .btn-gold:disabled {

@@ -130,8 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (rsvpForm) {
     const btnSi = document.getElementById('btn-si');
-    const declineToggle = document.getElementById('decline-toggle');
+    const btnNo = document.getElementById('btn-no');
     const asistenciaInput = document.getElementById('rsvp-asistencia');
+    const folioInput = document.getElementById('rsvp-folio');
+    const headingEl = document.getElementById('rsvp-heading');
     const nameWrap = document.getElementById('rsvp-name-wrap');
     const nameInput = document.getElementById('rsvp-name');
     const messageWrap = document.getElementById('rsvp-message-wrap');
@@ -139,53 +141,54 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageInput = document.getElementById('rsvp-message');
     const submitBtn = document.getElementById('rsvp-submit');
 
-    let isDeclining = false;
+    function generarFolio() {
+      const fecha = Date.now().toString(36).toUpperCase();
+      const azar = Math.random().toString(36).slice(2, 6).toUpperCase();
+      return `MN70-${fecha}-${azar}`;
+    }
 
-    function setAttending() {
-      isDeclining = false;
-      asistenciaInput.value = 'Sí asistiré';
-
-      btnSi.classList.add('is-active');
+    function mostrarCampos() {
+      headingEl.classList.remove('hidden');
       nameWrap.classList.remove('hidden');
       nameInput.setAttribute('required', 'true');
-
       messageWrap.classList.remove('hidden');
       messageInput.setAttribute('required', 'true');
-      messageLabel.textContent = 'Déjale un mensaje de felicitación a Maricela';
+    }
+
+    function setAttending() {
+      asistenciaInput.value = 'Sí asistiré';
+      folioInput.value = generarFolio();
+
+      btnSi.classList.add('is-active');
+      btnNo.classList.remove('is-active', 'is-active--decline');
+
+      mostrarCampos();
+      headingEl.textContent = 'Déjale una emotiva felicitación a Maricela, esto formara parte de un gran regalo sopresa';
+      messageLabel.textContent = 'Tu mensaje';
       messageInput.placeholder = 'Escribe tu mensaje de felicitación...';
 
-      declineToggle.innerHTML = '¿No podrás asistir? <span>Avísanos aquí</span>';
       submitBtn.textContent = 'Confirmar Asistencia';
       submitBtn.removeAttribute('disabled');
     }
 
     function setDeclining() {
-      isDeclining = true;
       asistenciaInput.value = 'No podré asistir';
+      folioInput.value = generarFolio();
 
+      btnNo.classList.add('is-active', 'is-active--decline');
       btnSi.classList.remove('is-active');
-      nameWrap.classList.remove('hidden');
-      nameInput.setAttribute('required', 'true');
 
-      messageWrap.classList.remove('hidden');
-      messageInput.setAttribute('required', 'true');
-      messageLabel.textContent = 'Aunque no puedas estar, que sienta tu felicitación a la distancia';
+      mostrarCampos();
+      headingEl.textContent = 'Aunque no puedas estar, que sienta tu felicitación a la distancia, esto formara parte de un gran regalo sopresa';
+      messageLabel.textContent = 'Tu mensaje';
       messageInput.placeholder = 'Escribe tu mensaje para ella...';
 
-      declineToggle.innerHTML = '¿Sí podrás acompañarnos? <span>Confirma aquí</span>';
       submitBtn.textContent = 'Enviar Mensaje';
       submitBtn.removeAttribute('disabled');
     }
 
     btnSi.addEventListener('click', setAttending);
-
-    declineToggle.addEventListener('click', () => {
-      if (isDeclining) {
-        setAttending();
-      } else {
-        setDeclining();
-      }
-    });
+    btnNo.addEventListener('click', setDeclining);
 
     rsvpForm.addEventListener('submit', async (e) => {
       e.preventDefault();
