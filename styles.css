@@ -9,6 +9,7 @@
   --cream: #f6ecd9;
   --muted: #a8927c;
   --bg: #120b08;
+  --rose: #c98a6b;
 }
 
 html {
@@ -574,6 +575,67 @@ body {
   box-shadow: 0 0 0 3px rgba(217,176,108,0.15);
 }
 
+/* ---------- Tarjeta de confirmación (post-envío) ---------- */
+
+.rsvp-confirmed {
+  padding: 2.6rem 1.8rem;
+  border-radius: 20px;
+  background: linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008));
+  border: 1px solid rgba(217,176,108,0.22);
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.rsvp-confirmed__badge {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1.2rem;
+}
+
+.rsvp-confirmed__badge svg circle {
+  stroke-dasharray: 151;
+  stroke-dashoffset: 151;
+  animation: ringDraw 0.6s ease forwards;
+}
+
+.rsvp-confirmed__badge svg path {
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: markDraw 0.4s ease forwards 0.55s;
+}
+
+.rsvp-confirmed__title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.7rem;
+  color: var(--gold-bright);
+  margin-bottom: 0.5rem;
+}
+
+.rsvp-confirmed__subtitle {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.rsvp-confirmed__change {
+  display: inline-block;
+  margin-top: 1.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  background: none;
+  border: none;
+  border-bottom: 1px dashed rgba(217,176,108,0.4);
+  cursor: pointer;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.rsvp-confirmed__change:hover {
+  color: var(--gold-bright);
+  border-color: var(--gold-bright);
+}
+
 /* =========================================================
    SCROLL CUE
    ========================================================= */
@@ -719,6 +781,170 @@ body {
   cursor: not-allowed;
   transform: none !important;
   box-shadow: none;
+}
+
+/* =========================================================
+   RSVP — overlay de estado (carta enviándose / recibida / falló)
+   ========================================================= */
+
+.rsvp-status {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(10, 6, 4, 0.72);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.rsvp-status.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.rsvp-status__card {
+  width: 100%;
+  max-width: 320px;
+  padding: 2.4rem 1.8rem 2rem;
+  text-align: center;
+  border-radius: 20px;
+  background: linear-gradient(160deg, #221610, #170f0a);
+  border: 1px solid rgba(217, 176, 108, 0.22);
+  box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.7);
+  transform: translateY(10px) scale(0.97);
+  transition: transform 0.4s cubic-bezier(.22,.61,.36,1);
+}
+
+.rsvp-status.is-visible .rsvp-status__card {
+  transform: translateY(0) scale(1);
+}
+
+.rsvp-status__icon {
+  position: relative;
+  width: 90px;
+  height: 64px;
+  margin: 0 auto 1.4rem;
+}
+
+.rsvp-status__env,
+.rsvp-status__result {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.rsvp-status__result {
+  width: 52px;
+  height: 52px;
+}
+
+/* --- Estado: enviando (sobre volando) --- */
+
+.rsvp-status.state-sending .rsvp-status__env {
+  opacity: 1;
+  animation: envSend 1.3s ease-in-out infinite;
+}
+
+@keyframes envSend {
+  0%   { transform: translate(-14px, 6px) rotate(-4deg) scale(0.94); opacity: 0.55; }
+  50%  { transform: translate(14px, -10px) rotate(3deg) scale(1.04); opacity: 1; }
+  100% { transform: translate(-14px, 6px) rotate(-4deg) scale(0.94); opacity: 0.55; }
+}
+
+/* --- Estado: éxito (check dibujándose) --- */
+
+.rsvp-status__ring {
+  stroke-dasharray: 146;
+  stroke-dashoffset: 146;
+}
+
+.rsvp-status__mark {
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+}
+
+.rsvp-status.state-success .rsvp-status__result--ok {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.rsvp-status.state-success .rsvp-status__result--ok .rsvp-status__ring {
+  animation: ringDraw 0.5s ease forwards;
+}
+
+.rsvp-status.state-success .rsvp-status__result--ok .rsvp-status__mark {
+  animation: markDraw 0.4s ease forwards 0.45s;
+}
+
+/* --- Estado: error (X dibujándose + sacudida) --- */
+
+.rsvp-status.state-error .rsvp-status__result--fail {
+  opacity: 1;
+  transform: scale(1);
+  animation: shake 0.45s ease 0.5s;
+}
+
+.rsvp-status.state-error .rsvp-status__result--fail .rsvp-status__ring--fail {
+  animation: ringDraw 0.5s ease forwards;
+}
+
+.rsvp-status.state-error .rsvp-status__result--fail .rsvp-status__mark--fail {
+  animation: markDraw 0.35s ease forwards 0.45s;
+}
+
+@keyframes ringDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes markDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0) scale(1); }
+  20%      { transform: translateX(-6px) scale(1); }
+  40%      { transform: translateX(6px) scale(1); }
+  60%      { transform: translateX(-4px) scale(1); }
+  80%      { transform: translateX(4px) scale(1); }
+}
+
+.rsvp-status__title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--gold-bright);
+  margin-bottom: 0.4rem;
+}
+
+.rsvp-status__subtitle {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.rsvp-status__close {
+  margin-top: 1.4rem;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gold-bright);
+  background: transparent;
+  border: 1px solid rgba(217, 176, 108, 0.4);
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.rsvp-status__close:hover {
+  background: rgba(217, 176, 108, 0.08);
+  border-color: var(--gold);
 }
 
 /* Accesibilidad: respeta reduced motion */

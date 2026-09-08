@@ -178,7 +178,7 @@
 
       <!-- ⚠️ Reemplaza la URL de "action" por tu endpoint real de Formspree o SheetDB -->
       <form id="rsvp-form" class="rsvp-card text-left"
-            action="https://formspree.io/f/TU_ID_DE_FORMULARIO" method="POST">
+            action="https://script.google.com/macros/s/AKfycbxB8jC6sYzWUKAJ2KKwHJLPRjOzRckOv52RjC77vQGtSP3EIZ-D-Zh0Z3LNvUut_FO-/exec" method="POST">
 
         <input type="hidden" id="rsvp-asistencia" name="asistencia" value="">
         <input type="hidden" id="rsvp-folio" name="folio" value="">
@@ -207,13 +207,51 @@
           Selecciona una opción
         </button>
 
-        <p id="rsvp-success" class="hidden mt-5 text-center text-sm text-gold">
-          ¡Gracias por confirmar! Te esperamos el 26 de septiembre. ✨
-        </p>
         <p id="rsvp-error" class="hidden mt-5 text-center text-sm text-rose">
           Hubo un problema al enviar. Por favor inténtalo de nuevo.
         </p>
       </form>
+
+      <!-- Tarjeta de confirmación (reemplaza al formulario tras un envío exitoso) -->
+      <div id="rsvp-confirmed" class="hidden rsvp-confirmed">
+        <div class="rsvp-confirmed__badge">
+          <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="26" cy="26" r="24" fill="none" stroke="var(--gold-bright)" stroke-width="2"/>
+            <path d="M14 27 L22 35 L39 16" fill="none" stroke="var(--gold-bright)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p id="rsvp-confirmed-title" class="rsvp-confirmed__title">¡Gracias por confirmar!</p>
+        <p id="rsvp-confirmed-subtitle" class="rsvp-confirmed__subtitle">Te esperamos el 26 de septiembre. ✨</p>
+        <button type="button" id="rsvp-change" class="rsvp-confirmed__change">¿Te equivocaste? Cambiar mi respuesta</button>
+      </div>
+
+      <!-- OVERLAY: animación de carta enviándose / recibida / falló -->
+      <div id="rsvp-status" class="rsvp-status" aria-live="polite">
+        <div class="rsvp-status__card">
+
+          <div class="rsvp-status__icon">
+            <svg class="rsvp-status__env" viewBox="0 0 100 70" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="10" width="92" height="56" rx="7" fill="#2a1c13" stroke="var(--gold)" stroke-width="2"/>
+              <path d="M6 15 L50 47 L94 15" fill="none" stroke="var(--gold-bright)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+
+            <svg class="rsvp-status__result rsvp-status__result--ok" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+              <circle class="rsvp-status__ring" cx="26" cy="26" r="23" fill="none" stroke="var(--gold-bright)" stroke-width="2"/>
+              <path class="rsvp-status__mark" d="M14 27 L22 35 L39 16" fill="none" stroke="var(--gold-bright)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+
+            <svg class="rsvp-status__result rsvp-status__result--fail" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+              <circle class="rsvp-status__ring rsvp-status__ring--fail" cx="26" cy="26" r="23" fill="none" stroke="var(--rose)" stroke-width="2"/>
+              <path class="rsvp-status__mark rsvp-status__mark--fail" d="M17 17 L35 35 M35 17 L17 35" fill="none" stroke="var(--rose)" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <p id="rsvp-status-title" class="rsvp-status__title"></p>
+          <p id="rsvp-status-subtitle" class="rsvp-status__subtitle"></p>
+
+          <button type="button" id="rsvp-status-close" class="rsvp-status__close hidden">Cerrar</button>
+        </div>
+      </div>
     </div>
   </section>
 

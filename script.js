@@ -5,6 +5,45 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   /* -----------------------------------------------------
+     0) TÍTULO DE LA PESTAÑA — refleja si ya se confirmó
+     ----------------------------------------------------- */
+  const ORIGINAL_TITLE = document.title;
+  const RSVP_STORAGE_KEY = 'mn70_rsvp_status';
+
+  function setTabTitle(asistencia) {
+    if (asistencia === 'Sí asistiré') {
+      document.title = '✅ Confirmado — Maricela 70\'s';
+    } else if (asistencia === 'No podré asistir') {
+      document.title = '💌 Respondido — Maricela 70\'s';
+    } else {
+      document.title = ORIGINAL_TITLE;
+    }
+  }
+
+  function guardarRespuestaLocal(asistencia, folio) {
+    try {
+      localStorage.setItem(RSVP_STORAGE_KEY, JSON.stringify({ asistencia, folio, fecha: Date.now() }));
+    } catch (err) {
+      // Si el navegador bloquea localStorage (modo incógnito, etc.) no pasa nada grave
+      console.warn('No se pudo guardar la respuesta localmente:', err);
+    }
+  }
+
+  function leerRespuestaLocal() {
+    try {
+      const raw = localStorage.getItem(RSVP_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  // Si esta persona ya confirmó antes desde este mismo navegador,
+  // la pestaña lo muestra de inmediato al volver a entrar.
+  const respuestaPrevia = leerRespuestaLocal();
+  if (respuestaPrevia) setTabTitle(respuestaPrevia.asistencia);
+
+  /* -----------------------------------------------------
      1) SOBRE INTERACTIVO → abre y revela el contenido
      ----------------------------------------------------- */
   const envelopePage = document.getElementById('page-envelope');
@@ -38,18 +77,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // Bloquea el scroll mientras el sobre está en pantalla
   document.body.style.overflow = 'hidden';
 
-  seal.addEventListener('click', (e) => {
-    e.stopPropagation();
-    openInvitation();
-  });
-
-  envelope.addEventListener('click', openInvitation);
-  envelope.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
+  if (seal) {
+    seal.addEventListener('click', (e) => {
+      e.stopPropagation();
       openInvitation();
-    }
-  });
+    });
+  }
+
+  if (envelope) {
+    envelope.addEventListener('click', openInvitation);
+    envelope.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openInvitation();
+      }
+    });
+  }
 
   /* -----------------------------------------------------
      2) CONTADOR REGRESIVO (mini, sección "Llega rápido")
@@ -69,6 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateCountdown() {
+    if (!cdMini.days || !cdMini.hours || !cdMini.minutes || !cdMini.seconds) return;
+
     const now = new Date();
     let diff = EVENT_DATE - now;
 
@@ -122,11 +167,59 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* -----------------------------------------------------
-     5) RSVP — botón de asistencia + link para declinar + envío
+     4) RSVP — botón de asistencia + link para declinar + envío
      ----------------------------------------------------- */
   const rsvpForm = document.getElementById('rsvp-form');
-  const rsvpSuccess = document.getElementById('rsvp-success');
+  const rsvpConfirmed = document.getElementById('rsvp-confirmed');
+  const rsvpConfirmedTitle = document.getElementById('rsvp-confirmed-title');
+  const rsvpConfirmedSubtitle = document.getElementById('rsvp-confirmed-subtitle');
   const rsvpError = document.getElementById('rsvp-error');
+
+  function mostrarConfirmacion(asistencia) {
+    if (rsvpForm) rsvpForm.classList.add('hidden');
+    if (rsvpConfirmedTitle) {
+      rsvpConfirmedTitle.textContent = asistencia === 'Sí asistiré'
+        ? '¡Gracias por confirmar!'
+        : 'Gracias por avisarnos';
+    }
+    if (rsvpConfirmedSubtitle) {
+      rsvpConfirmedSubtitle.textContent = asistencia === 'Sí asistiré'
+        ? 'Te esperamos el 26 de septiembre. ✨'
+        : 'Lamentamos que no puedas acompañarnos, ¡gracias por tu mensaje! 💛';
+    }
+    if (rsvpConfirmed) rsvpConfirmed.classList.remove('hidden');
+  }
+
+  const rsvpChangeBtn = document.getElementById('rsvp-change');
+  if (rsvpChangeBtn) {
+    rsvpChangeBtn.addEventListener('click', () => {
+      try { localStorage.removeItem(RSVP_STORAGE_KEY); } catch (err) { /* no-op */ }
+      document.title = ORIGINAL_TITLE;
+      if (rsvpConfirmed) rsvpConfirmed.classList.add('hidden');
+      if (rsvpForm) {
+        rsvpForm.classList.remove('hidden');
+        rsvpForm.reset();
+      }
+      // Regresa el formulario a su estado inicial (sin opción elegida todavía)
+      const asistenciaInput = document.getElementById('rsvp-asistencia');
+      const btnSi = document.getElementById('btn-si');
+      const btnNo = document.getElementById('btn-no');
+      const headingEl = document.getElementById('rsvp-heading');
+      const nameWrap = document.getElementById('rsvp-name-wrap');
+      const messageWrap = document.getElementById('rsvp-message-wrap');
+      const submitBtn = document.getElementById('rsvp-submit');
+      if (asistenciaInput) asistenciaInput.value = '';
+      if (btnSi) btnSi.classList.remove('is-active');
+      if (btnNo) btnNo.classList.remove('is-active', 'is-active--decline');
+      if (headingEl) headingEl.classList.add('hidden');
+      if (nameWrap) nameWrap.classList.add('hidden');
+      if (messageWrap) messageWrap.classList.add('hidden');
+      if (submitBtn) {
+        submitBtn.textContent = 'Selecciona una opción';
+        submitBtn.setAttribute('disabled', 'true');
+      }
+    });
+  }
 
   if (rsvpForm) {
     const btnSi = document.getElementById('btn-si');
@@ -141,6 +234,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageInput = document.getElementById('rsvp-message');
     const submitBtn = document.getElementById('rsvp-submit');
 
+    // ---- Overlay animado: carta enviándose / recibida / falló ----
+    const statusOverlay = document.getElementById('rsvp-status');
+    const statusTitle = document.getElementById('rsvp-status-title');
+    const statusSubtitle = document.getElementById('rsvp-status-subtitle');
+    const statusClose = document.getElementById('rsvp-status-close');
+    let statusHideTimer;
+
+    function showRsvpStatus(state, title, subtitle, opts = {}) {
+      if (!statusOverlay) return;
+      clearTimeout(statusHideTimer);
+      statusOverlay.classList.remove('state-sending', 'state-success', 'state-error');
+      // Forzar reflow para poder re-disparar las animaciones si se envía dos veces
+      void statusOverlay.offsetWidth;
+      statusOverlay.classList.add('is-visible', `state-${state}`);
+      if (statusTitle) statusTitle.textContent = title;
+      if (statusSubtitle) statusSubtitle.textContent = subtitle;
+      if (statusClose) statusClose.classList.toggle('hidden', !opts.closable);
+      if (opts.autoHideMs) {
+        statusHideTimer = setTimeout(hideRsvpStatus, opts.autoHideMs);
+      }
+    }
+
+    function hideRsvpStatus() {
+      if (!statusOverlay) return;
+      statusOverlay.classList.remove('is-visible');
+    }
+
+    if (statusClose) statusClose.addEventListener('click', hideRsvpStatus);
+
     function generarFolio() {
       const fecha = Date.now().toString(36).toUpperCase();
       const azar = Math.random().toString(36).slice(2, 6).toUpperCase();
@@ -148,74 +270,124 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function mostrarCampos() {
-      headingEl.classList.remove('hidden');
-      nameWrap.classList.remove('hidden');
-      nameInput.setAttribute('required', 'true');
-      messageWrap.classList.remove('hidden');
-      messageInput.setAttribute('required', 'true');
+      if (headingEl) headingEl.classList.remove('hidden');
+      if (nameWrap) nameWrap.classList.remove('hidden');
+      if (nameInput) nameInput.setAttribute('required', 'true');
+      if (messageWrap) messageWrap.classList.remove('hidden');
+      if (messageInput) messageInput.setAttribute('required', 'true');
     }
 
     function setAttending() {
       asistenciaInput.value = 'Sí asistiré';
       folioInput.value = generarFolio();
 
-      btnSi.classList.add('is-active');
-      btnNo.classList.remove('is-active', 'is-active--decline');
+      if (btnSi) btnSi.classList.add('is-active');
+      if (btnNo) btnNo.classList.remove('is-active', 'is-active--decline');
 
       mostrarCampos();
-      headingEl.textContent = 'Déjale una emotiva felicitación a Maricela, esto formara parte de un gran regalo sopresa';
-      messageLabel.textContent = 'Tu mensaje';
-      messageInput.placeholder = 'Escribe tu mensaje de felicitación...';
+      if (headingEl) headingEl.textContent = 'Déjale una emotiva felicitación a Maricela, esto formara parte de un gran regalo sopresa';
+      if (messageLabel) messageLabel.textContent = 'Tu mensaje';
+      if (messageInput) messageInput.placeholder = 'Escribe tu mensaje de felicitación...';
 
-      submitBtn.textContent = 'Confirmar Asistencia';
-      submitBtn.removeAttribute('disabled');
+      if (submitBtn) {
+        submitBtn.textContent = 'Confirmar Asistencia';
+        submitBtn.removeAttribute('disabled');
+      }
     }
 
     function setDeclining() {
       asistenciaInput.value = 'No podré asistir';
       folioInput.value = generarFolio();
 
-      btnNo.classList.add('is-active', 'is-active--decline');
-      btnSi.classList.remove('is-active');
+      if (btnNo) btnNo.classList.add('is-active', 'is-active--decline');
+      if (btnSi) btnSi.classList.remove('is-active');
 
       mostrarCampos();
-      headingEl.textContent = 'Aunque no puedas estar, que sienta tu felicitación a la distancia, esto formara parte de un gran regalo sopresa';
-      messageLabel.textContent = 'Tu mensaje';
-      messageInput.placeholder = 'Escribe tu mensaje para ella...';
+      if (headingEl) headingEl.textContent = 'Aunque no puedas estar, que sienta tu felicitación a la distancia, esto formara parte de un gran regalo sopresa';
+      if (messageLabel) messageLabel.textContent = 'Tu mensaje';
+      if (messageInput) messageInput.placeholder = 'Escribe tu mensaje para ella...';
 
-      submitBtn.textContent = 'Enviar Mensaje';
-      submitBtn.removeAttribute('disabled');
+      if (submitBtn) {
+        submitBtn.textContent = 'Enviar Mensaje';
+        submitBtn.removeAttribute('disabled');
+      }
     }
 
-    btnSi.addEventListener('click', setAttending);
-    btnNo.addEventListener('click', setDeclining);
+    if (btnSi) btnSi.addEventListener('click', setAttending);
+    if (btnNo) btnNo.addEventListener('click', setDeclining);
+
+    // Si esta persona ya había confirmado antes desde este navegador,
+    // mostramos directamente el estado de "ya respondido" en vez del formulario.
+    if (respuestaPrevia) {
+      mostrarConfirmacion(respuestaPrevia.asistencia);
+    }
 
     rsvpForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!asistenciaInput.value) return;
 
-      const originalLabel = submitBtn.textContent;
-      submitBtn.setAttribute('disabled', 'true');
-      submitBtn.textContent = 'Enviando...';
-      rsvpError.classList.add('hidden');
+      const originalLabel = submitBtn ? submitBtn.textContent : 'Enviar';
+      if (submitBtn) {
+        submitBtn.setAttribute('disabled', 'true');
+        submitBtn.textContent = 'Enviando...';
+      }
+      if (rsvpError) rsvpError.classList.add('hidden');
 
-      const formData = new FormData(rsvpForm);
+      showRsvpStatus(
+        'sending',
+        'Enviando tu carta…',
+        'Un momento, la estamos entregando ✉️'
+      );
+
+      // Enviamos como JSON dentro de un body "text/plain": esto evita el preflight
+      // de CORS (que Apps Script no sabe responder) pero SÍ nos permite leer
+      // la respuesta real del servidor, a diferencia de mode: 'no-cors'.
+      const payload = {
+        asistencia: asistenciaInput.value,
+        folio: folioInput.value,
+        nombre: nameInput ? nameInput.value : '',
+        mensaje: messageInput ? messageInput.value : '',
+      };
 
       try {
-        const response = await fetch(rsvpForm.action, {
+        const res = await fetch(rsvpForm.action, {
           method: 'POST',
-          body: formData,
-          headers: { Accept: 'application/json' },
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload),
         });
 
-        if (!response.ok) throw new Error('Respuesta no válida del servidor');
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
 
-        rsvpForm.classList.add('hidden');
-        rsvpSuccess.classList.remove('hidden');
+        const result = await res.json();
+
+        if (result.status !== 'success') {
+          throw new Error(result.message || 'El servidor respondió con un error');
+        }
+
+        mostrarConfirmacion(asistenciaInput.value);
+        setTabTitle(asistenciaInput.value);
+        guardarRespuestaLocal(asistenciaInput.value, folioInput.value);
+        showRsvpStatus(
+          'success',
+          '¡Carta recibida!',
+          'Gracias por confirmar. Te esperamos el 26 de septiembre ✨',
+          { autoHideMs: 3200 }
+        );
       } catch (err) {
-        rsvpError.classList.remove('hidden');
-        submitBtn.removeAttribute('disabled');
-        submitBtn.textContent = originalLabel;
+        console.error('Error al enviar:', err);
+        if (rsvpError) rsvpError.classList.remove('hidden');
+        if (submitBtn) {
+          submitBtn.removeAttribute('disabled');
+          submitBtn.textContent = originalLabel;
+        }
+        showRsvpStatus(
+          'error',
+          'La carta no llegó',
+          'Hubo un problema al enviarla. Ciérra esta ventana e inténtalo de nuevo.',
+          { closable: true }
+        );
       }
     });
   }
