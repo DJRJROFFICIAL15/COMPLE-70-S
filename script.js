@@ -177,6 +177,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function mostrarConfirmacion(asistencia) {
     if (rsvpForm) rsvpForm.classList.add('hidden');
+    const questionTitle = document.getElementById('rsvp-question-title');
+    if (questionTitle) questionTitle.classList.add('hidden');
     if (rsvpConfirmedTitle) {
       rsvpConfirmedTitle.textContent = asistencia === 'Sí asistiré'
         ? '¡Gracias por confirmar!'
@@ -196,6 +198,8 @@ document.addEventListener('DOMContentLoaded', () => {
       try { localStorage.removeItem(RSVP_STORAGE_KEY); } catch (err) { /* no-op */ }
       document.title = ORIGINAL_TITLE;
       if (rsvpConfirmed) rsvpConfirmed.classList.add('hidden');
+      const questionTitle = document.getElementById('rsvp-question-title');
+      if (questionTitle) questionTitle.classList.remove('hidden');
       if (rsvpForm) {
         rsvpForm.classList.remove('hidden');
         rsvpForm.reset();
@@ -285,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (btnNo) btnNo.classList.remove('is-active', 'is-active--decline');
 
       mostrarCampos();
-      if (headingEl) headingEl.textContent = 'Déjale una emotiva felicitación a Maricela, esto formara parte de un gran regalo sopresa';
+      if (headingEl) headingEl.textContent = 'Déjale una emotiva felicitación, esto formara parte de un gran regalo sopresa';
       if (messageLabel) messageLabel.textContent = 'Tu mensaje';
       if (messageInput) messageInput.placeholder = 'Escribe tu mensaje de felicitación...';
 

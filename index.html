@@ -111,70 +111,69 @@
 
   <!-- ITINERARIO -->
   <section id="itinerario" class="px-6 py-24 md:py-32 reveal">
-    <div class="max-w-xl mx-auto">
+    <div class="max-w-3xl mx-auto">
       <p class="eyebrow mb-4 text-center">El programa</p>
       <h2 class="font-display italic text-4xl sm:text-5xl mb-16 text-center">Itinerario del día</h2>
 
-      <ol class="timeline">
-        <li class="timeline__item">
-          <span class="timeline__time">10:30 a.m.</span>
-          <div class="timeline__dot"></div>
-          <div class="timeline__content">
-            <h4 class="font-display italic text-2xl mb-1">HORA DE LLEGADA</h4>
-            <p class="text-muted text-sm leading-relaxed">Llegar con antelacion para dar una buena sorpresa</p>
+      <ol class="itinerary-grid">
+
+        <li class="itinerary-card reveal reveal--left">
+          <div class="itinerary-card__top">
+            <span class="itinerary-card__num">01</span>
+            <div>
+              <span class="itinerary-card__time">10:30 a.m.</span>
+              <h3 class="itinerary-card__title">🕓 Hora de llegada</h3>
+            </div>
+          </div>
+          <p class="itinerary-card__desc">
+            Nos adelantamos para recibir y celebrar los 70 años de una vida
+            llena de momentos reales, transparencia y victorias inolvidables.
+          </p>
+          <p class="itinerary-card__highlight">¡Hoy se festeja en grande!</p>
+        </li>
+
+        <li class="itinerary-card reveal reveal--right">
+          <div class="itinerary-card__top">
+            <span class="itinerary-card__num">02</span>
+            <div>
+              <span class="itinerary-card__time">11:00 a.m.</span>
+              <h3 class="itinerary-card__title">⛪ Recepción sorpresa y misa</h3>
+            </div>
+          </div>
+          <p class="itinerary-card__desc">
+            El momento que hemos guardado en secreto ¡Shhh! Misa de acción de
+            gracias por una existencia repleta de vivencias, integridad y triunfos.
+          </p>
+          <div class="itinerary-card__photo">
+            <img src="img/capilla.jpeg"
+                 alt="Capilla Hacienda del Parián"
+                 class="absolute inset-0 w-full h-full object-cover"
+                 onerror="this.style.display='none'; this.parentElement.classList.add('location-photo--empty');" />
           </div>
         </li>
-        <li class="timeline__item">
-          <span class="timeline__time">11:00 a.m.</span>
-          <div class="timeline__dot timeline__dot--gold"></div>
-          <div class="timeline__content">
-            <span class="timeline__tag">Momento emotivo</span>
-            <h4 class="font-display italic text-2xl mb-1">Recepción sorpresa</h4>
-            <p class="text-muted text-sm leading-relaxed">El momento que hemos guardado en secreto. ¡Shhh!, Misa de accion de gracias</p>
+
+        <li class="itinerary-card reveal reveal--left">
+          <div class="itinerary-card__top">
+            <span class="itinerary-card__num">03</span>
+            <div>
+              <span class="itinerary-card__time">11:45 a.m.</span>
+              <h3 class="itinerary-card__title">🥐 Desayuno</h3>
+            </div>
           </div>
+          <p class="itinerary-card__desc">
+            Terminando nuestra misa de acción de gracias, nos vamos todos a
+            celebrar y compartir en la mesa, en el restaurante de la hacienda.
+          </p>
         </li>
-        <li class="timeline__item">
-          <span class="timeline__time">11:45.m.</span>
-          <div class="timeline__dot"></div>
-          <div class="timeline__content">
-            <h4 class="font-display italic text-2xl mb-1">Desayuno</h4>
-            <p class="text-muted text-sm leading-relaxed">Celebramos en la mesa, en el restaurante de la hacienda.</p>
-          </div>
-        </li>
+
       </ol>
-    </div>
-  </section>
-
-  <!-- UBICACIÓN -->
-  <section id="ubicacion" class="px-6 py-24 md:py-32 reveal">
-    <div class="max-w-lg mx-auto">
-      <h2 class="font-display italic text-4xl sm:text-5xl mb-12 text-center">Misa de Acción de Gracias</h2>
-
-      <div class="location-card">
-        <div class="location-card__glow"></div>
-        <p class="text-xs tracking-[0.25em] uppercase text-gold mb-3">Capilla &middot; Hacienda del Parián</p>
-
-        <div class="location-photo mb-4">
-          <img src="img/capilla.jpeg"
-               alt="Capilla Hacienda del Parián"
-               class="absolute inset-0 w-full h-full object-cover"
-               onerror="this.style.display='none'; this.parentElement.classList.add('location-photo--empty');" />
-        </div>
-
-        <p class="text-muted leading-relaxed text-justify mb-8">
-          Comenzamos el día dando gracias por 70 años de vida, fe y bendiciones.
-          Te esperamos en la capilla de la Hacienda del Parián para celebrar
-          juntos este momento tan especial para Maricela.
-        </p>
-
-      </div>
     </div>
   </section>
 
   <!-- RSVP -->
   <section id="rsvp" class="px-6 py-24 md:py-32 reveal">
     <div class="max-w-lg mx-auto text-center">
-      <h2 class="font-display italic text-4xl sm:text-5xl mb-10">¿Nos acompañas?</h2>
+      <h2 id="rsvp-question-title" class="font-display italic text-4xl sm:text-5xl mb-10">¿Nos acompañas?</h2>
 
       <!-- ⚠️ Reemplaza la URL de "action" por tu endpoint real de Formspree o SheetDB -->
       <form id="rsvp-form" class="rsvp-card text-left"
@@ -273,10 +272,6 @@
         Llega rápido desde aquí →
       </a>
     </div>
-
-    <footer class="mt-28 text-center text-muted text-xs tracking-[0.25em] uppercase">
-      Con todo nuestro cariño, para Maricela Navarro
-    </footer>
 
     <div class="watermark">
       <!-- ⚠️ Reemplaza el href por tu enlace real -->

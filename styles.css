@@ -104,21 +104,6 @@ body {
   white-space: nowrap;
 }
 
-/* ---------- Etiqueta de timeline ---------- */
-
-.timeline__tag {
-  display: inline-block;
-  margin-bottom: 0.5rem;
-  padding: 0.2rem 0.65rem;
-  border-radius: 9999px;
-  font-size: 0.6rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--gold-bright);
-  background: rgba(243,205,136,0.1);
-  border: 1px solid rgba(243,205,136,0.25);
-}
-
 /* ---------- Reveal on scroll (contenido principal) ---------- */
 
 .reveal {
@@ -130,6 +115,19 @@ body {
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.reveal--left {
+  transform: translateX(-36px);
+}
+
+.reveal--right {
+  transform: translateX(36px);
+}
+
+.reveal--left.is-visible,
+.reveal--right.is-visible {
+  transform: translateX(0);
 }
 
 /* =========================================================
@@ -471,57 +469,137 @@ body {
 }
 
 /* =========================================================
-   TIMELINE
+   ITINERARIO — tarjetas escalonadas
    ========================================================= */
 
-.timeline {
+.itinerary-grid {
   position: relative;
-  padding-left: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.2rem;
 }
 
-.timeline::before {
-  content: "";
-  position: absolute;
-  left: 7px;
-  top: 6px;
-  bottom: 6px;
-  width: 1px;
-  background: linear-gradient(180deg, rgba(217,176,108,0.5), rgba(217,176,108,0.05));
+@media (min-width: 768px) {
+  .itinerary-grid {
+    gap: 2.8rem;
+  }
+
+  .itinerary-grid::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 1px;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(217, 176, 108, 0.4) 0 6px,
+      transparent 6px 14px
+    );
+    transform: translateX(-50%);
+    z-index: 0;
+  }
+
+  .itinerary-card {
+    position: relative;
+    z-index: 1;
+    width: calc(50% - 1.6rem);
+  }
+
+  .itinerary-card:nth-child(odd) {
+    margin-right: auto;
+  }
+
+  .itinerary-card:nth-child(even) {
+    margin-left: auto;
+  }
 }
 
-.timeline__item {
-  position: relative;
-  padding-bottom: 2.6rem;
+.itinerary-card {
+  padding: 1.7rem 1.6rem;
+  border-radius: 20px;
+  background: linear-gradient(160deg, rgba(217,176,108,0.06), rgba(255,255,255,0.012));
+  border: 1px solid rgba(217,176,108,0.18);
+  box-shadow: 0 20px 45px -28px rgba(0,0,0,0.65);
 }
 
-.timeline__item:last-child {
-  padding-bottom: 0;
+.itinerary-card__top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.timeline__dot {
-  position: absolute;
-  left: -2.4rem;
-  top: 0.35rem;
-  width: 10px;
-  height: 10px;
+.itinerary-card__num {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 9999px;
-  background: rgba(217,176,108,0.35);
-  box-shadow: 0 0 0 4px rgba(217,176,108,0.08);
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #2a1c13;
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold) 70%);
+  box-shadow: 0 8px 20px -6px rgba(217,176,108,0.55);
 }
 
-.timeline__dot--gold {
-  background: var(--gold-bright);
-  box-shadow: 0 0 0 5px rgba(243,205,136,0.16), 0 0 18px 2px rgba(243,205,136,0.5);
-}
-
-.timeline__time {
+.itinerary-card__time {
   display: block;
-  font-size: 0.68rem;
+  font-size: 0.64rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.25rem;
 }
+
+.itinerary-card__title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 1.25;
+  color: var(--cream);
+}
+
+.itinerary-card__desc {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.itinerary-card__highlight {
+  margin-top: 0.9rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--gold-bright);
+}
+
+.itinerary-card__photo {
+  position: relative;
+  width: 100%;
+  height: 11rem;
+  margin-top: 1.1rem;
+  border-radius: 14px;
+  overflow: hidden;
+  background: linear-gradient(160deg, rgba(217,176,108,0.12), rgba(217,176,108,0.03));
+  border: 1px solid rgba(217,176,108,0.35);
+  box-shadow: 0 14px 30px -16px rgba(0,0,0,0.7);
+}
+
+@media (min-width: 640px) {
+  .itinerary-card__photo {
+    height: 13rem;
+  }
+}
+
+/* =========================================================
+   TARJETA DE UBICACIÓN
+   ========================================================= */
 
 /* =========================================================
    RSVP
