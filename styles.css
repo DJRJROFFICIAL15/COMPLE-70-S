@@ -570,6 +570,26 @@ body {
   line-height: 1.7;
 }
 
+.itinerary-card__desc + .itinerary-card__desc {
+  margin-top: 0.7rem;
+}
+
+.itinerary-card__whisper {
+  margin: 0.6rem 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--gold-bright);
+  text-shadow: 0 0 18px rgba(243,205,136,0.35);
+  animation: whisperPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes whisperPulse {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50%      { opacity: 1; transform: scale(1.04); }
+}
+
 .itinerary-card__highlight {
   margin-top: 0.9rem;
   font-family: 'Cormorant Garamond', serif;
